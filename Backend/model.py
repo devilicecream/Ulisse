@@ -37,6 +37,7 @@ class Place(DBSession.Model):
     category = DBSession.relationship('Category', backref=DBSession.backref('places', lazy='dynamic'))
 
 
+
 class Document(DBSession.Model):
     __tablename__ = 'documents'
     uid = DBSession.Column('uid', DBSession.Integer, primary_key=True, autoincrement=True)
@@ -57,10 +58,10 @@ class Category(DBSession.Model):
     name = DBSession.Column(DBSession.String(60))
 
 def row_to_dict(row):
-	res = {}
-	for column in row.__table__.columns:
-		res[column.name] = getattr(row, column.name)
-	
-	return res
+    res = {}
+    for column in row.__table__.columns:
+        res[column.name] = getattr(row, column.name)
+
+    return res
 
 

@@ -3,8 +3,9 @@ __author__ = 'walter'
 from flask import Flask, request, flash, url_for, redirect, render_template, abort, make_response, send_from_directory
 from ulisse import app, DBSession
 import json, hashlib
-from model import User, Place, Document, row_to_dict
+from model import User, Place, Document, Category, row_to_dict
 import uuid, os
+from utils import coords
 
 RES_TYPE_PHOTO = 1
 RES_TYPE_TEXT = 2
@@ -74,15 +75,16 @@ def login():
     access_token = request.form.get('access_token')
 
     fb_auth = validate_couple(fb_id, fb_token)
-    gp_auth = validate_couple(gp_id, gp_token) if not fb_auth and not gp_auth:
+    gp_auth = validate_couple(gp_id, gp_token)
+    if not fb_auth and not gp_auth:
         return Error.unauthorized()
 
     auth, auth_type = (gp_auth, 'gp') if gp_auth else (fb_auth, 'fb')
 
     if auth_type == 'gp':
-        user = DBSession.query(User).filter_by(gp_id = auth[0], gp_token = auth[1]).first()
+        user = DBSession.session.query(User).filter_by(gp_id = auth[0], gp_token = auth[1]).first()
     else:
-        user = DBSession.query(User).filter_by(fb_id = auth[0], fb_token = auth[1]).first()
+        user = DBSession.session.query(User).filter_by(fb_id = auth[0], fb_token = auth[1]).first()
     if not access_token and user:
         return Error.unauthorized()
     else:
@@ -103,14 +105,21 @@ def login():
 
 @app.route('/get_places', methods=['POST', 'GET'])
 def get_places():
-    lat = float(int(request.form.get('lat', 0)))
-    long = float(int(request.form.get('lon', 0)))
-    area = None#get_area(lat, long, 10)
+    lat = float(request.args.get('lat'))
+    lng = float(request.args.get('lon'))
+    #lat = float(int(request.form.get('lat', 0)))
+    #lng = float(int(request.form.get('lon', 0)))
+    if not (lat and long):
+        return Error.invalid_value('lat', lat)
+    area = coords.get_area(lat, lng, 10)
     print area
-    places = DBSession.query(Place).filter('pos_lat' >= area[0][0], 'pos_long' >= area[0][1],
-                                           'pos_lat' <= area[1][0], 'pos_long' <= area[1][1]).all()
+    for place in DBSession.session.query(Place).all():
+        print place.pos_lat, place.pos_lon
+    places = DBSession.session.query(Place).filter('pos_lat' >= area[0][0], 'pos_lon' >= area[0][1],
+                                                   'pos_lat' <= area[1][0], 'pos_lon' <= area[1][1]).all()
+    print places
+    return json.dumps(places)
 
-    return ""
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -160,11 +169,11 @@ def upload():
         if f.filename.lower().endswith(ext):
             filename += "." + ext
             break
-        return error_invalid_value('res_type', res_type)
+        return Error.invalid_value('res_type', res_type)
 
     # TODO Infer filename
     if not verify_filename(res_type, f.filename):
-        return error_invalid_value('file', f.filename)
+        return Error.invalid_value('file', f.filename)
 
     filename = str(uuid.uuid4())
     if f.filename.lower().endswith('jpg'):
@@ -206,5 +215,10 @@ def get_place():
     res = row_to_dict(place)
     res['documents'] = [ row_to_dict(row) for row in place.documents.all() ]
     return json.dumps(res)
+
+@app.route('/get_categories', methods=['GET'])
+def get_categories():
+    return json.dumps(DBSession.session.query(Category).all())
+
 
 
