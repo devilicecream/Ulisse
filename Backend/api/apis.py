@@ -58,18 +58,25 @@ def verify_login(token):
 @app.after_request
 def jsonify(response):
     response.headers['Content-type'] = 'application/json'
+    print response.response
     return response
 
 @app.route('/test')
 def test():
     return json.dumps(dict(request.args))
 
-@app.route('/login', methods=['POST', 'GET'])
-def login(fb_id=None, fb_token=None, gp_id=None, gp_token=None, access_token=None):
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    gp_id = request.form.get('gp_id')
+    fb_id = request.form.get('fb_id')
+    gp_token = request.form.get('gp_token')
+    fb_token = request.form.get('fb_token')
+    access_token = request.form.get('access_token')
+
     fb_auth = validate_couple(fb_id, fb_token)
-    gp_auth = validate_couple(gp_id, gp_token)
-    if not fb_auth and not gp_auth:
+    gp_auth = validate_couple(gp_id, gp_token) if not fb_auth and not gp_auth:
         return Error.unauthorized()
+
     auth, auth_type = (gp_auth, 'gp') if gp_auth else (fb_auth, 'fb')
 
     if auth_type == 'gp':
@@ -92,6 +99,18 @@ def login(fb_id=None, fb_token=None, gp_id=None, gp_token=None, access_token=Non
             DBSession.session.commit()
         user_info = dict(id = user.id, access_token = user.access_token)
     return user_info
+
+
+@app.route('/get_places', methods=['POST', 'GET'])
+def get_places():
+    lat = float(int(request.form.get('lat', 0)))
+    long = float(int(request.form.get('lon', 0)))
+    area = None#get_area(lat, long, 10)
+    print area
+    places = DBSession.query(Place).filter('pos_lat' >= area[0][0], 'pos_long' >= area[0][1],
+                                           'pos_lat' <= area[1][0], 'pos_long' <= area[1][1]).all()
+
+    return ""
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -141,9 +160,19 @@ def upload():
         if f.filename.lower().endswith(ext):
             filename += "." + ext
             break
+        return error_invalid_value('res_type', res_type)
+
+    # TODO Infer filename
+    if not verify_filename(res_type, f.filename):
+        return error_invalid_value('file', f.filename)
+
+    filename = str(uuid.uuid4())
+    if f.filename.lower().endswith('jpg'):
+        filename += ".jpg"
+    elif f.filename.lower().endswith('.bmp'):
+        filename += ".bmp"
 
     out_path = os.sep.join(( app.config['UPLOAD_FOLDER'], filename ))
-    print " ~ Will save upload to", out_path
 
     place = session.query(Place).filter_by(uid = place_id).first()
     if place is None:
@@ -151,7 +180,6 @@ def upload():
 
     doc = Document()
     doc.name = name
-    print " ~~ Filename =", filename
     doc.url = url_for('uploaded_file', filename=filename)
     doc.res_type = res_type
     doc.place = place
