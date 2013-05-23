@@ -1,7 +1,6 @@
 package poli.app.ulisse;
 
 
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -39,7 +38,8 @@ public class MainActivity extends Activity implements OnClickListener,
         mConnectionProgressDialog.setMessage("Signing in...");
         if(mPlusClient.isConnected())
             Toast.makeText(this, " is connected.", Toast.LENGTH_LONG).show();
-        
+
+        startActivity(new Intent(this, AppActivity.class));//salto del login
     }
 
     @Override
@@ -66,7 +66,7 @@ public class MainActivity extends Activity implements OnClickListener,
 	{
         String accountName = mPlusClient.getAccountName();
         Toast.makeText(this, accountName + " is connected.", Toast.LENGTH_LONG).show();
-        startActivity(new Intent(this,MapsActivity.class));	
+        startActivity(new Intent(this, AppActivity.class));
 	}
 	
     @Override
