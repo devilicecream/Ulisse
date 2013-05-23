@@ -7,7 +7,6 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config.from_pyfile('conf.ini')
-print app.config
 DBSession = SQLAlchemy(app)
 
 
