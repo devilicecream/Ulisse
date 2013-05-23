@@ -41,7 +41,7 @@ class Document(DBSession.Model):
     __tablename__ = 'documents'
     uid = DBSession.Column('uid', DBSession.Integer, primary_key=True, autoincrement=True)
     name = DBSession.Column(DBSession.String(60))
-	res_type = DBSession.Column(DBSession.Integer)
+    res_type = DBSession.Column(DBSession.Integer)
     url = DBSession.Column(DBSession.String(200), default="")
 
     up = DBSession.Column(DBSession.Integer, default=0)

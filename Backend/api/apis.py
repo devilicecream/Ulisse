@@ -21,19 +21,19 @@ def error_unauthorized():
 def error_invalid_value(what, wrong_val=None):
     errstr = 'Invaild value for "%s"' % what
     if wrong_val: errstr += " (was: "+str(wrong_val)+")"
-	error = dict(error=errstr, state=401)
-	return json.dumps(error) #, 401, {}
+    error = dict(error=errstr, state=401)
+    return json.dumps(error) #, 401, {}
 
 def error_missing_param(what):
-	errstr = 'Missing parameter in request (%s)' % what
-	error = dict(error=errstr, state=400)
-	return json.dumps(error), # 401, {}
+    errstr = 'Missing parameter in request (%s)' % what
+    error = dict(error=errstr, state=400)
+    return json.dumps(error), # 401, {}
 
 def error_invalid_id(what, wrong_id=None):
-	errstr = 'Invalid id for %s' % what
-	if wrong_id: errstr += ' (wrong id: %d)' % wrong_id
-	error = dict(error=errstr, state=400) # bad request
-	return json.dumps(error), # 401, {}
+    errstr = 'Invalid id for %s' % what
+    if wrong_id: errstr += ' (wrong id: %d)' % wrong_id
+    error = dict(error=errstr, state=400) # bad request
+    return json.dumps(error), # 401, {}
 
 
 def validate_couple(first, second):
