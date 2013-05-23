@@ -3,7 +3,7 @@ __author__ = 'walter'
 from flask import Flask, request, flash, url_for, redirect, render_template, abort, make_response, send_from_directory
 from ulisse import app, DBSession
 import json, hashlib
-from model import User, Place, Document, Category, row_to_dict
+from model import User, Place, Document, Category, Reporting, row_to_dict
 import uuid, os
 from utils import coords
 
@@ -54,7 +54,7 @@ def verify_filename(res_type, filename):
     return False
 
 def verify_login(token):
-    return DBSession.session.query(User).filter_by(access_token=token).first() != None
+    return DBSession.session.query(User).filter_by(access_token=token).first()
 
 @app.after_request
 def jsonify(response):
@@ -106,11 +106,11 @@ def login():
 @app.route('/get_places', methods=['POST', 'GET'])
 def get_places():
     if request.method == 'POST':
-        lat = float(request.form.get('lat'))
-        lng = float(request.form.get('lon'))
+        lat = float(request.form.get('lat',0))
+        lng = float(request.form.get('lon',0))
     else:
-        lat = float(request.args.get('lat'))
-        lng = float(request.args.get('lon'))
+        lat = float(request.args.get('lat',0))
+        lng = float(request.args.get('lon',0))
     if not (lat and lng):
         return Error.invalid_value('lat', lat)
     area = coords.get_area(lat, lng, 10)
@@ -120,6 +120,23 @@ def get_places():
     places = map(row_to_dict, places)
     return json.dumps(places)
 
+
+@app.route('/get_reportings', methods=['POST', 'GET'])
+def get_reportings():
+    if request.method == 'POST':
+        lat = float(request.form.get('lat',0))
+        lng = float(request.form.get('lon',0))
+    else:
+        lat = float(request.args.get('lat',0))
+        lng = float(request.args.get('lon',0))
+    if not (lat and lng):
+        return Error.invalid_value('lat', lat)
+    area = coords.get_area(lat, lng, 10)
+    reportings = DBSession.session.query(Reporting).filter(Reporting.pos_lat >= area[0][0], Reporting.pos_lon >= area[0][1],
+                                                           Reporting.pos_lat <= area[1][0], Reporting.pos_lon <= area[1][1])\
+                                                   .order_by(Reporting.up.desc()).limit(10).all()
+    reportings = map(row_to_dict, reportings)
+    return json.dumps(reportings)
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -204,21 +221,65 @@ def upload():
 def get_place():
     session = DBSession.session
 
-    place_id = request.args['place_id']
-    if place_id == None:
+    place_id = request.args.get('place_id')
+    if not place_id:
         return Error.missing_param('place_id')
 
     place = session.query(Place).filter_by(uid=place_id).first()
-    if place == None:
+    if not place:
         return Error.invalid_id('place_id', place_id)
 
     res = row_to_dict(place)
-    res['documents'] = [ row_to_dict(row) for row in place.documents.all() ]
     return json.dumps(res)
+
+@app.route('/get_reporting', methods=['GET'])
+def get_reporting():
+    session = DBSession.session
+
+    reporting_id = request.args.get('reporting_id')
+    if not reporting_id:
+        return Error.missing_param('reporting_id')
+
+    reporting = session.query(Reporting).filter_by(uid=reporting_id).first()
+    if not reporting:
+        return Error.invalid_id('reporting_id', reporting_id)
+
+    res = row_to_dict(reporting)
+    return json.dumps(res)
+
 
 @app.route('/get_categories', methods=['GET'])
 def get_categories():
     return json.dumps(DBSession.session.query(Category).all())
+
+
+@app.route('/add_reporting', methods=['POST'])
+def add_reporting():
+    name = request.form.get('name')
+    address = request.form.get('address')
+    pos_lat = float(request.form.get('lat',0))
+    pos_lon = float(request.form.get('lon',0))
+    user_id = request.form.get('user_id')
+
+    user = DBSession.session.query(User).get(user_id)
+    if user is None:
+        return Error.invalid_id('user_id', user_id)
+
+    reporting = Reporting(name=name, address=address, pos_lat=pos_lat, pos_lon=pos_lon, user=user)
+    DBSession.session.add(reporting)
+    DBSession.session.commit()
+
+    return json.dumps(reporting)
+
+@app.route('/up', methods=['POST'])
+def up():
+    pass
+
+@app.route('/up', methods=['POST'])
+def down():
+    pass
+
+
 
 
 

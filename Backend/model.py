@@ -51,6 +51,9 @@ class Document(DBSession.Model):
     place_id = DBSession.Column(DBSession.Integer, DBSession.ForeignKey('places.uid'))
     place = DBSession.relationship('Place', backref=DBSession.backref('documents', lazy='dynamic'))
 
+    reporting_id = DBSession.Column(DBSession.Integer, DBSession.ForeignKey('reportings.uid'))
+    reporting = DBSession.relationship('Reporting', backref=DBSession.backref('documents', lazy='dynamic'))
+
 
 class Category(DBSession.Model):
     __tablename__ = 'categories'
@@ -62,6 +65,26 @@ def row_to_dict(row):
     for column in row.__table__.columns:
         res[column.name] = getattr(row, column.name)
 
+    try:
+        documents = row.documents.all()
+        if documents:
+            res['documents'] = [ row_to_dict(row) for row in documents ]
+    except:
+        pass
+
     return res
 
 
+class Reporting(DBSession.Model):
+    __tablename__ = 'reportings'
+    uid = DBSession.Column('uid', DBSession.Integer, primary_key=True, autoincrement=True)
+    name = DBSession.Column(DBSession.String(60))
+    address = DBSession.Column(DBSession.String(150))
+    pos_lat = DBSession.Column(DBSession.Float, default=0)
+    pos_lon = DBSession.Column(DBSession.Float, default=0)
+
+    up = DBSession.Column(DBSession.Integer, default=0)
+    down = DBSession.Column(DBSession.Integer, default=0)
+
+    user_id = DBSession.Column(DBSession.Integer, DBSession.ForeignKey('users.uid'))
+    user = DBSession.relationship('User', backref=DBSession.backref('reportings', lazy='dynamic'))

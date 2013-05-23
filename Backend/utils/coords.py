@@ -14,7 +14,7 @@ def get_coords(address):
     return results[0].coordinates
 
 def get_area(lat, lng, distance):
-    distance /= 2000.0
+    distance /= 500.0
     lat1 = lat - distance
     lat2 = lat + distance
 
