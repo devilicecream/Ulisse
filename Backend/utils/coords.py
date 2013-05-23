@@ -9,12 +9,12 @@ def get_coords(address):
         address = address.replace("'", "")
         results = Geocoder.geocode(address)
     except:
-        print "Error happened"
+        print "\n\n\nError happened\n\n\n"
         return None, None
     return results[0].coordinates
 
 def get_area(lat, lng, distance):
-    distance /= 10.0
+    distance /= 2000.0
     lat1 = lat - distance
     lat2 = lat + distance
 

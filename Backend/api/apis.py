@@ -105,19 +105,19 @@ def login():
 
 @app.route('/get_places', methods=['POST', 'GET'])
 def get_places():
-    lat = float(request.args.get('lat'))
-    lng = float(request.args.get('lon'))
-    #lat = float(int(request.form.get('lat', 0)))
-    #lng = float(int(request.form.get('lon', 0)))
-    if not (lat and long):
+    if request.method == 'POST':
+        lat = float(request.form.get('lat'))
+        lng = float(request.form.get('lon'))
+    else:
+        lat = float(request.args.get('lat'))
+        lng = float(request.args.get('lon'))
+    if not (lat and lng):
         return Error.invalid_value('lat', lat)
     area = coords.get_area(lat, lng, 10)
-    print area
-    for place in DBSession.session.query(Place).all():
-        print place.pos_lat, place.pos_lon
-    places = DBSession.session.query(Place).filter('pos_lat' >= area[0][0], 'pos_lon' >= area[0][1],
-                                                   'pos_lat' <= area[1][0], 'pos_lon' <= area[1][1]).all()
-    print places
+    places = DBSession.session.query(Place).filter(Place.pos_lat >= area[0][0], Place.pos_lon >= area[0][1],
+                                                   Place.pos_lat <= area[1][0], Place.pos_lon <= area[1][1])\
+                                           .order_by(Place.up.desc()).limit(10).all()
+    places = map(row_to_dict, places)
     return json.dumps(places)
 
 
