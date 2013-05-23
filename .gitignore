@@ -1,3 +1,6 @@
+*.pyo
+*.pyc
+.idea
 
 # C extensions
 *.so
