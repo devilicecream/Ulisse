@@ -30,7 +30,7 @@ def login(fb_id=None, fb_token=None, gp_id=None, gp_token=None, access_token=Non
     fb_auth = validate_couple(fb_id, fb_token)
     gp_auth = validate_couple(gp_id, gp_token)
     if not fb_auth and not gp_auth:
-        return Error.unauthorized
+        return Error.unauthorized()
     auth, auth_type = (gp_auth, 'gp') if gp_auth else (fb_auth, 'fb')
 
     if auth_type == 'gp':
