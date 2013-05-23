@@ -14,6 +14,12 @@ ALLOWED_EXTENSIONS = {
     RES_TYPE_PHOTO: ['jpg', 'bmp', 'png']
 }
 
+RATEABLE = {
+    'place': Place,
+    'document': Document,
+    'reporting': Reporting
+}
+
 class Error:
     @classmethod
     def unauthorized(cls):
@@ -271,15 +277,38 @@ def add_reporting():
 
     return json.dumps(reporting)
 
-@app.route('/up', methods=['POST'])
-def up():
-    pass
+@app.route('/updown', methods=['POST'])
+def updown():
+    session = DBSession.session
 
-@app.route('/up', methods=['POST'])
-def down():
-    pass
+    entity = request.form.get('entity')
+    if not entity:
+        return Error.missing_param('entity')
 
+    if entity not in RATEABLE:
+        return Error.invalid_value('entity', entity)
 
+    try:
+        updown = request.form['updown']
+        id = request.form['id']
+    except KeyError:
+        return Error.missing_param('<unknown>')
+    
+    model = RATEABLE[entity]
+    row = session.query(model).filter_by(uid=id).first()
+    if not row:
+        return Error.invalid_id('id', id)
+
+    if updown == 'up':
+        row.up = row.up + 1
+    elif updown == 'down':
+        row.down = row.down + 1
+    else:
+        return Error.invalid_value('updown', updown)
+
+    session.commit()
+    
+    return json.dumps({'status': 'success'}), 200
 
 
 
