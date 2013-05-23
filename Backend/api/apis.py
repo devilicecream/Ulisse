@@ -32,7 +32,7 @@ def login(fb_id=None, fb_token=None, gp_id=None, gp_token=None, access_token=Non
     if not fb_auth and not gp_auth:
         return Error.unauthorized
     auth, auth_type = (gp_auth, 'gp') if gp_auth else (fb_auth, 'fb')
-    user = None
+
     if auth_type == 'gp':
         user = DBSession.query(User).filter_by(gp_id = auth[0], gp_token = auth[1]).first()
     else:
@@ -41,7 +41,7 @@ def login(fb_id=None, fb_token=None, gp_id=None, gp_token=None, access_token=Non
         return Error.unauthorized()
     else:
         if not access_token:
-            token = hashlib.sha1(auth)
+            token = hashlib.sha1(str(auth)).hexdigest()
             user = User(access_token=token)
             if auth_type == 'gp':
                 user.gp_id = auth[0]
