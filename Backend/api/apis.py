@@ -72,17 +72,18 @@ def jsonify(response):
 def test():
     return json.dumps(dict(request.args))
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def login():
     gp_id = request.form.get('gp_id')
     fb_id = request.form.get('fb_id')
-    gp_token = request.form.get('gp_token')
+    gp_token = request.form.get('gp_token', 'faketoken')
     fb_token = request.form.get('fb_token')
     access_token = request.form.get('access_token')
 
     fb_auth = validate_couple(fb_id, fb_token)
     gp_auth = validate_couple(gp_id, gp_token)
-    if not fb_auth and not gp_auth:
+    if fb_auth is None and gp_auth is None:
+        print "Missing auth"
         return Error.unauthorized()
 
     auth, auth_type = (gp_auth, 'gp') if gp_auth else (fb_auth, 'fb')
@@ -92,6 +93,7 @@ def login():
     else:
         user = DBSession.session.query(User).filter_by(fb_id = auth[0], fb_token = auth[1]).first()
     if not access_token and user:
+        print "User existing    "
         return Error.unauthorized()
     else:
         if not access_token:
@@ -256,18 +258,18 @@ def get_reporting():
 
 @app.route('/get_categories', methods=['GET'])
 def get_categories():
-    return json.dumps(DBSession.session.query(Category).all())
+    return json.dumps(map(row_to_dict ,DBSession.session.query(Category).all()))
 
 
 @app.route('/add_reporting', methods=['POST'])
 def add_reporting():
-    name = request.form.get('name')
+    name = request.form.get('name','Prova')
     address = request.form.get('address')
     pos_lat = float(request.form.get('lat',0))
     pos_lon = float(request.form.get('lon',0))
     user_id = request.form.get('user_id')
 
-    user = DBSession.session.query(User).get(user_id)
+    user = DBSession.session.query(User).filter_by(uid = user_id).first()
     if user is None:
         return Error.invalid_id('user_id', user_id)
 
@@ -275,7 +277,7 @@ def add_reporting():
     DBSession.session.add(reporting)
     DBSession.session.commit()
 
-    return json.dumps(reporting)
+    return json.dumps(row_to_dict(reporting))
 
 @app.route('/updown', methods=['POST'])
 def updown():
