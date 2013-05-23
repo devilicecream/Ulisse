@@ -8,7 +8,7 @@
     <file path="/hello.py" changelist="ea135d7e-783c-4ace-948f-2402f87fd768" time="1369300688206" ignored="false" />
     <file path="/ulisse.py" changelist="ea135d7e-783c-4ace-948f-2402f87fd768" time="1369309482670" ignored="false" />
     <file path="/user.py" changelist="ea135d7e-783c-4ace-948f-2402f87fd768" time="1369304559529" ignored="false" />
-    <file path="/apis.py" changelist="ea135d7e-783c-4ace-948f-2402f87fd768" time="1369314645309" ignored="false" />
+    <file path="/apis.py" changelist="ea135d7e-783c-4ace-948f-2402f87fd768" time="1369321678141" ignored="false" />
     <file path="/new.html" changelist="ea135d7e-783c-4ace-948f-2402f87fd768" time="1369310002724" ignored="false" />
     <file path="/show_all.html" changelist="ea135d7e-783c-4ace-948f-2402f87fd768" time="1369305112536" ignored="false" />
     <file path="/__init__.py" changelist="ea135d7e-783c-4ace-948f-2402f87fd768" time="1369307255766" ignored="false" />
@@ -39,7 +39,7 @@
       <file leaf-file-name="ulisse.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ulisse.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="21" selection-start="203" selection-end="203" vertical-scroll-proportion="0.0">
+            <state line="16" column="26" selection-start="374" selection-end="374" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#23#52#0" expanded="true" />
               </folding>
@@ -59,10 +59,8 @@
       <file leaf-file-name="model.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="86" selection-start="1433" selection-end="1433" vertical-scroll-proportion="-4.387097">
-              <folding>
-                <element signature="e#23#51#0" expanded="true" />
-              </folding>
+            <state line="35" column="86" selection-start="1433" selection-end="1433" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -70,7 +68,7 @@
       <file leaf-file-name="apis.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/api/apis.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="19" selection-start="331" selection-end="331" vertical-scroll-proportion="0.30664396">
+            <state line="17" column="0" selection-start="462" selection-end="462" vertical-scroll-proportion="0.20783645">
               <folding>
                 <element signature="e#23#120#0" expanded="true" />
               </folding>
@@ -104,12 +102,12 @@
         <option value="$PROJECT_DIR$/session.py" />
         <option value="$PROJECT_DIR$/model/__init__.py" />
         <option value="$PROJECT_DIR$/conf.ini" />
-        <option value="$PROJECT_DIR$/ulisse.py" />
         <option value="$PROJECT_DIR$/templates/new.html" />
         <option value="$PROJECT_DIR$/templates/show_all.html" />
         <option value="$PROJECT_DIR$/templates/layout.html" />
         <option value="$PROJECT_DIR$/model.py" />
         <option value="$PROJECT_DIR$/flask_ext.py" />
+        <option value="$PROJECT_DIR$/ulisse.py" />
         <option value="$PROJECT_DIR$/api/apis.py" />
       </list>
     </option>
@@ -277,22 +275,22 @@
     <frame x="52" y="-4" width="1315" height="773" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12189441" sideWeight="0.9529984" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -356,24 +354,12 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/templates/__init__.py">
+    <entry file="file://$PROJECT_DIR$/ulisse.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="7" column="21" selection-start="203" selection-end="203" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#23#52#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -386,16 +372,61 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="86" selection-start="1433" selection-end="1433" vertical-scroll-proportion="-4.387097">
+        <state line="35" column="86" selection-start="1433" selection-end="1433" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/apis.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="19" selection-start="331" selection-end="331" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#23#51#0" expanded="true" />
+            <element signature="e#23#120#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conf.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="0" selection-start="162" selection-end="162" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="86" selection-start="1433" selection-end="1433" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ulisse.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="21" selection-start="203" selection-end="203" vertical-scroll-proportion="0.0">
+        <state line="16" column="26" selection-start="374" selection-end="374" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#23#52#0" expanded="true" />
           </folding>
@@ -404,7 +435,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/api/apis.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="19" selection-start="331" selection-end="331" vertical-scroll-proportion="0.30664396">
+        <state line="17" column="0" selection-start="462" selection-end="462" vertical-scroll-proportion="0.20783645">
           <folding>
             <element signature="e#23#120#0" expanded="true" />
           </folding>
