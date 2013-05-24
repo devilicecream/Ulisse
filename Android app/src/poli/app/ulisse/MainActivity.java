@@ -36,11 +36,8 @@ public class MainActivity extends Activity implements OnClickListener,
         // Progress bar to be displayed if the connection failure is not resolved.
         mConnectionProgressDialog = new ProgressDialog(this);
         mConnectionProgressDialog.setMessage("Signing in...");
-        if(mPlusClient.isConnected())
-            Toast.makeText(this, " is connected.", Toast.LENGTH_LONG).show();
-
-       // startActivity(new Intent(this, AppActivity.class));//salto del login
-        startActivity(new Intent(this, NewPlace.class));//salto del login
+        // if(mPlusClient.isConnected())
+        //    Toast.makeText(this, " is connected.", Toast.LENGTH_LONG).show();
     }
     
     @Override
