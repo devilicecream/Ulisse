@@ -22,34 +22,24 @@
 package poli.app.ulisse;
 
 import poli.app.ulisse.MyHorizontalScrollView.SizeCallback;
-
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
  * This demo uses a custom HorizontalScrollView that ignores touch events, and therefore does NOT allow manual scrolling.
@@ -59,8 +49,7 @@ import android.widget.Toast;
  * When the button is pressed, both the menu and the app will scroll. So the menu isn't revealed from beneath the app, it
  * adjoins the app and moves with the app.
  */
-public class MapsActivity extends Activity implements OnMarkerClickListener,OnInfoWindowClickListener,android.location.LocationListener
-{
+public class MapsActivity extends Activity implements OnMarkerClickListener {
     MyHorizontalScrollView scrollView;
     View menu;
     View app;
@@ -79,6 +68,7 @@ public class MapsActivity extends Activity implements OnMarkerClickListener,OnIn
         scrollView = (MyHorizontalScrollView) inflater.inflate(R.layout.horz_scroll_with_list_menu, null);
         setContentView(scrollView);
         
+
         int scrollToViewIdx = 1;
 
         menu = inflater.inflate(R.layout.horz_scroll_menu, null);
@@ -93,33 +83,49 @@ public class MapsActivity extends Activity implements OnMarkerClickListener,OnIn
         btnSlide.setOnClickListener(new ClickListenerForScrolling(scrollView, menu));
 
         scrollView.initViews(children, scrollToViewIdx, new SizeCallbackForMenu(btnSlide));
+          
         mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();	
-        mMap.setMyLocationEnabled(true);
         mMap.setOnMarkerClickListener(this);
-        mMap.setOnInfoWindowClickListener(this);
 
-        Communication com=new Communication();
-        LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        CameraUpdate camupd=CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
-        mMap.animateCamera(camupd);
-        Toast.makeText(this, location.getLatitude()+"x"+location.getLongitude(), Toast.LENGTH_LONG).show();
-        Bundle[] b=com.getPlaces(location.getLatitude(), location.getLongitude());
-        
-        addMarkers(b);
+        addMarkers();
     }
     
-    void addMarkers(Bundle[] b)
+    void addMarkers()
     {
-    	for(int i=0;i<b.length;i++)
-    	{
 		    mMap.addMarker(new MarkerOptions()
-		    .position(new LatLng(b[i].getDouble("pos_lat"),b[i].getDouble("pos_lon")))
-		    .title(b[i].getString("name"))
-		    .snippet(b[i].getString("address"))
-		/*.icon(BitmapDescriptorFactory
-		    .fromResource(R.drawable.mole_antonelliana))*/);
-    	}
+		    .position(new LatLng(45.07096,7.693563))
+		    .title("Mole Antonelliana")
+		    .snippet("Corso San Maurio,Torino,TO")
+		.icon(BitmapDescriptorFactory
+		    .fromResource(R.drawable.mole_antonelliana)));
+		
+		mMap.addMarker(new MarkerOptions()
+		.position(new LatLng(43.723878,10.396671))
+		.title("Torre di Pisa")
+		.snippet("Piazza del Duomo,Pisa,PI")
+		.icon(BitmapDescriptorFactory
+		.fromResource(R.drawable.torre_di_pisa)));
+		
+		mMap.addMarker(new MarkerOptions()
+		.position(new LatLng(45.471688,9.186287))
+		.title("Duomo di Milano")
+		.snippet("Piazza del Duomo,Milano,MI")
+		.icon(BitmapDescriptorFactory
+		.fromResource(R.drawable.duomo_di_milano)));
+		
+		mMap.addMarker(new MarkerOptions()
+		.position(new LatLng(41.891033,12.49227))
+		.title("Anfiteatro Flavio")
+		.snippet("Piazza del Colosseo,RO")
+		.icon(BitmapDescriptorFactory
+		.fromResource(R.drawable.colosseo)));
+		
+		mMap.addMarker(new MarkerOptions()
+		.position(new LatLng(37.076152,15.284472))
+		.title("Catacombe di Siracusa")
+		.snippet("Largo San Marciano,SR")
+		.icon(BitmapDescriptorFactory
+		.fromResource(R.drawable.catacombe_di_siracusa)));
 	}
     
     
@@ -139,11 +145,9 @@ public class MapsActivity extends Activity implements OnMarkerClickListener,OnIn
         }
 
         @Override
-        public void onClick(View v) 
-        {
-        	if(v.getId()==R.id.BtnSlide)
-        	{
+        public void onClick(View v) {
             int menuWidth = menu.getMeasuredWidth();
+
             // Ensure menu is visible
             menu.setVisibility(View.VISIBLE);
 
@@ -157,7 +161,6 @@ public class MapsActivity extends Activity implements OnMarkerClickListener,OnIn
                 scrollView.smoothScrollTo(left, 0);
             }
             menuOut = !menuOut;
-        	}
         }
     }
 
@@ -179,8 +182,7 @@ public class MapsActivity extends Activity implements OnMarkerClickListener,OnIn
         }
 
         @Override
-        public void getViewSize(int idx, int w, int h, int[] dims) 
-        {
+        public void getViewSize(int idx, int w, int h, int[] dims) {
             dims[0] = w;
             dims[1] = h;
             final int menuIdx = 0;
@@ -195,74 +197,7 @@ public class MapsActivity extends Activity implements OnMarkerClickListener,OnIn
 	@Override
 	public boolean onMarkerClick(Marker marker) 
 	{
-        Toast.makeText(this, marker.getTitle() , Toast.LENGTH_LONG).show();       
+        Toast.makeText(this, marker.getTitle() , Toast.LENGTH_LONG).show();
 		return false;
 	}
-
-	@Override
-	public void onInfoWindowClick(Marker marker) 
-	{
-		Intent intent = new Intent(this,PageActivity.class);
-		Bundle b = new Bundle();
-		b.putString("title",marker.getTitle());
-		b.putString("addr",marker.getSnippet());
-		b.putDouble("lat",marker.getPosition().latitude);
-		b.putDouble("lat",marker.getPosition().longitude);
-
-		intent.putExtras(b);
-        startActivity(intent);			
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) 
-	{
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.activity_main, menu);
-	    return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    // Handle item selection
-	    switch (item.getItemId()) {
-	        case R.id.normal:
-	            mMap.setMapType(com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL);
-	            return true;
-	        case R.id.satellite:
-	            mMap.setMapType(com.google.android.gms.maps.GoogleMap.MAP_TYPE_SATELLITE);
-	            return true;
-	        case R.id.terreno:
-	            mMap.setMapType(com.google.android.gms.maps.GoogleMap.MAP_TYPE_TERRAIN);
-	            return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
-	}
-
-	@Override
-	public void onLocationChanged(Location location) 
-	{
-        Toast.makeText(this,"test", Toast.LENGTH_LONG).show();       
-
-	}
-
-	@Override
-	public void onProviderDisabled(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onProviderEnabled(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onStatusChanged(String arg0, int arg1, Bundle arg2) 
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
 }
