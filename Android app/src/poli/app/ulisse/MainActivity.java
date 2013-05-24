@@ -2,44 +2,53 @@ package poli.app.ulisse;
 
 
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.GoogleAuthException;
+import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.*;
 import com.google.android.gms.common.GooglePlayServicesClient.*;
+import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.plus.PlusClient;
+import com.google.android.gms.plus.PlusClient.OnPersonLoadedListener;
+import com.google.android.gms.plus.model.people.Person;
 
 public class MainActivity extends Activity implements OnClickListener,
-        ConnectionCallbacks, OnConnectionFailedListener {
+        ConnectionCallbacks, OnConnectionFailedListener, OnPersonLoadedListener {
     private static final String TAG = "ExampleActivity";
     private static final int REQUEST_CODE_RESOLVE_ERR = 9000;
-
     private ProgressDialog mConnectionProgressDialog;
     private PlusClient mPlusClient;
     private ConnectionResult mConnectionResult;
 
+    Communication com;
     @Override
     protected void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViewById(R.id.sign_in_button).setOnClickListener(this);
-        mPlusClient = new PlusClient.Builder(this, this, this)
+        mPlusClient = new PlusClient.Builder(this, this, this).setScopes(Scopes.PLUS_LOGIN)
                 .setVisibleActivities("http://schemas.google.com/AddActivity", "http://schemas.google.com/BuyActivity")
                 .build();
-        // Progress bar to be displayed if the connection failure is not resolved.
+
+        com=new Communication();
         mConnectionProgressDialog = new ProgressDialog(this);
         mConnectionProgressDialog.setMessage("Signing in...");
         if(mPlusClient.isConnected())
-            Toast.makeText(this, " is connected.", Toast.LENGTH_LONG).show();
-        
+            Toast.makeText(this, " is connected.", Toast.LENGTH_LONG).show();   
     }
 
     @Override
@@ -54,19 +63,13 @@ public class MainActivity extends Activity implements OnClickListener,
         super.onStop();
         mPlusClient.disconnect();
     }
-
-
-
-
-
-
-
+    
+    
 	@Override
 	public void onConnected(Bundle connectionHint) 
 	{
-        String accountName = mPlusClient.getAccountName();
-        Toast.makeText(this, accountName + " is connected.", Toast.LENGTH_LONG).show();
-        startActivity(new Intent(this,MapsActivity.class));	
+		mPlusClient.loadPerson(this,"me");
+		 mConnectionProgressDialog.dismiss();    
 	}
 	
     @Override
@@ -78,6 +81,8 @@ public class MainActivity extends Activity implements OnClickListener,
     @Override
     public void onConnectionFailed(ConnectionResult result) 
     {
+		Toast.makeText(this,"Error: "+String.valueOf(result.getErrorCode()), Toast.LENGTH_LONG).show(); 
+
         if (result.hasResolution()) {
             try {
                 result.startResolutionForResult(this, REQUEST_CODE_RESOLVE_ERR);
@@ -97,5 +102,20 @@ public class MainActivity extends Activity implements OnClickListener,
 			 mConnectionProgressDialog.show();
 	        mPlusClient.connect();
 	    }
+	}
+
+	
+	@Override
+	public void onPersonLoaded(ConnectionResult status, Person person) 
+	{
+		if(person==null)
+			Toast.makeText(this,"Error: "+String.valueOf(status.getErrorCode()), Toast.LENGTH_LONG).show(); 
+		else
+		{
+			Toast.makeText(this,"ID: "+String.valueOf(person.getId()), Toast.LENGTH_LONG).show(); 
+			//com.login(person.getId());
+			com.getPlaces(100.0,100.0);
+			startActivity(new Intent(this,MapsActivity.class));	    
+		}
 	}
 }

@@ -182,22 +182,33 @@ containing a value of this type.
         public static final int duomo_di_milano=0x7f02001a;
         public static final int ic_launcher=0x7f02001b;
         public static final int mole_antonelliana=0x7f02001c;
-        public static final int torre_di_pisa=0x7f02001d;
+        public static final int streetview=0x7f02001d;
+        public static final int test=0x7f02001e;
+        public static final int torre_di_pisa=0x7f02001f;
     }
     public static final class id {
         public static final int BtnSlide=0x7f060008;
+        public static final int btStreetview=0x7f060010;
+        public static final int horizontalScrollView1=0x7f06000c;
         public static final int hybrid=0x7f060004;
+        public static final int imageView1=0x7f06000e;
         public static final int list=0x7f06000a;
         public static final int map=0x7f060007;
         public static final int menu=0x7f060009;
-        public static final int menu_settings=0x7f06000c;
         public static final int none=0x7f060000;
         public static final int normal=0x7f060001;
+        public static final int normale=0x7f060014;
+        public static final int ratingBar1=0x7f06000d;
         public static final int satellite=0x7f060002;
         public static final int sign_in_button=0x7f060006;
         public static final int terrain=0x7f060003;
+        public static final int terreno=0x7f060015;
         public static final int textView1=0x7f060005;
         public static final int top=0x7f06000b;
+        public static final int tvAddr=0x7f060012;
+        public static final int tvTitle=0x7f060011;
+        public static final int tvVisite=0x7f06000f;
+        public static final int tvVoto=0x7f060013;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -206,6 +217,7 @@ containing a value of this type.
         public static final int horz_scroll_menu=0x7f030003;
         public static final int horz_scroll_with_list_menu=0x7f030004;
         public static final int list_item=0x7f030005;
+        public static final int page_activity=0x7f030006;
     }
     public static final class menu {
         public static final int activity_main=0x7f090000;
