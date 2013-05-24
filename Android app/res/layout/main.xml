@@ -47,7 +47,8 @@
                 android:layout_height="wrap_content"
                 android:text="New" android:gravity="right" android:layout_alignParentLeft="true"
                 android:layout_alignTop="@+id/mapsBtn" android:layout_alignParentEnd="false"
-                android:layout_alignParentStart="false">
+                android:layout_alignParentStart="false"
+                >
         </Button>
     </RelativeLayout>
 

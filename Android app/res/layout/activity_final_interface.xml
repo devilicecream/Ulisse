@@ -16,4 +16,26 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="94dp" />
 
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView1"
+        android:layout_marginTop="90dp"
+        android:ems="10"
+        android:text="Nome Luogo" >
+
+        <requestFocus />
+    </EditText>
+
+      <EditText
+          android:id="@+id/editText2"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignRight="@+id/imageView1"
+          android:layout_below="@+id/editText1"
+          android:layout_marginTop="79dp"
+          android:ems="10"
+          android:text="Categoria" />
+    
 </RelativeLayout>

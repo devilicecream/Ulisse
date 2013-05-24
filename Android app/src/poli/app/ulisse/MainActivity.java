@@ -43,6 +43,7 @@ public class MainActivity extends Activity implements OnClickListener,
         com=new Communication();
         mConnectionProgressDialog = new ProgressDialog(this);
         mConnectionProgressDialog.setMessage("Signing in...");
+        startActivity(new Intent(this,AppActivity.class));	// jump directly in order to avoid login
     }
     
     @Override

@@ -1,7 +1,12 @@
 package poli.app.ulisse;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
@@ -16,6 +21,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -23,8 +29,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import android.app.Application;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.util.Log;
 
 public class Communication 
@@ -40,17 +54,26 @@ public class Communication
 	{
 		String[] values={id};
 		String[] params={"gp_id"};
-		sendData("login",params,values);
+		sendData("login",params,values, null);
 	}
 	
-
 	
+	public void uploadPhoto(String res_type, String name, String place_id, String access_token, Uri bitmap)
+	{
+
+		
+		String[] params = {"res_type", "name", "place_id", "access_token"};
+		String[] values = {String.valueOf(res_type), String.valueOf(name), String.valueOf(place_id), String.valueOf(access_token) };
+		sendData("upload",params, values, bitmap);
+	}
+	        
+
 	public Bundle[] getPlaces(double lat,double lon)
 	{
 		Bundle[] b=null;
 		String[] values={String.valueOf(lat),String.valueOf(lon)};
 		String[] params={"lat","lon"};
-		JSONArray jsa=sendData("get_places",params,values);
+		JSONArray jsa=sendData("get_places",params,values, null);
 		b=new Bundle[jsa.length()];
 		for(int i=0;i<jsa.length();i++)
 		{
@@ -80,12 +103,12 @@ public class Communication
 		Bundle b=new Bundle();
 		String[] values={String.valueOf(id)};
 		String[] params={"id"};
-		JSONArray jsa=sendData("get_place",params,values);
+		JSONArray jsa=sendData("get_place",params,values, null);
 		return b;
 	}
 	
 	
-	private JSONArray sendData(String page, String[] params, String[] values) 
+	private JSONArray sendData(String page, String[] params, String[] values, Uri file) 
 	{	
 	    HttpClient httpclient = new DefaultHttpClient();
 	    URI server = null;
@@ -98,6 +121,19 @@ public class Communication
 			e1.printStackTrace();
 		}
 	    HttpPost httppost = new HttpPost(server);
+	    if (file!=null) {
+	    	FileInputStream file_stream = null;
+	    	try {
+	    		file_stream = new FileInputStream(file.getPath());
+	    	} catch (Exception e) {
+	    		e.printStackTrace();
+	    	}
+			InputStreamEntity reqEntity = new InputStreamEntity(
+					file_stream, -1);
+		    reqEntity.setContentType("binary/octet-stream");
+		    reqEntity.setChunked(true); // Send in multiple parts if needed
+		    httppost.setEntity(reqEntity);
+	    }
 	    if(values!=null)
 	    {
 	    	Log.d("Comunication","adding paramenters");
