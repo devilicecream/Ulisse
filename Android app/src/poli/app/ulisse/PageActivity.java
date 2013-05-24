@@ -31,29 +31,14 @@ public class PageActivity extends Activity implements OnClickListener
 	 super.onCreate(savedInstanceState);
      setContentView(R.layout.page_activity);
      findViewById(R.id.btStreetview).setOnClickListener(this);
-     String place_id = getIntent().getExtras().getString("id");
-     Communication com=new Communication();
-     
-     b=com.getPlace(place_id);
-     try {
-		this.createUI();
-     } catch (JSONException e) {
-		e.printStackTrace();
-     }
- 
+     b = getIntent().getExtras();
+     this.createUI();
     }
 
-    public void createUI() throws JSONException {
+    public void createUI() 
+    {
     	((TextView)findViewById(R.id.tvTitle)).setText(b.getString("name"));
     	((TextView)findViewById(R.id.tvAddr)).setText(b.getString("address"));
-    	ArrayList<Object> array = (ArrayList<Object>)b.get("documents");
-		((TextView)findViewById(R.id.TextView0)).setText(((JSONObject)array.get(0)).getString("name"));
-		((TextView)findViewById(R.id.TextView1)).setText(((JSONObject)array.get(1)).getString("name"));
-		((TextView)findViewById(R.id.TextView2)).setText(((JSONObject)array.get(2)).getString("name"));
-		((TextView)findViewById(R.id.TextView3)).setText(((JSONObject)array.get(3)).getString("name"));
-		((TextView)findViewById(R.id.TextView4)).setText(((JSONObject)array.get(4)).getString("name"));
-		((TextView)findViewById(R.id.TextView5)).setText(((JSONObject)array.get(5)).getString("name"));
-
     }
     
 	@Override

@@ -38,11 +38,15 @@ public class homePage extends Fragment implements android.location.LocationListe
     ArrayList<TextView> segnalatedDescriptions = new ArrayList<TextView>();
     
     class ButtonListener implements OnClickListener {
-		public String id;
+		public String uid;
+		public String name;
+		public String address;
+
+		
 		@Override
 		public void onClick(View v) {
 			// Porcata assurda.
-			createPageActivity(id);
+			createPageActivity(this.uid, this.name, this.address);
 		}
 	};
 
@@ -64,8 +68,11 @@ public class homePage extends Fragment implements android.location.LocationListe
         for(Bundle bundle : bundles) {
         	Button bt = new Button(getActivity());
         	bt.setText(bundle.getString("name"));
+        	near.addView(bt);
         	ButtonListener listener = new ButtonListener();
-			listener.id = bundle.getString("uid");
+			listener.uid = String.format("%d",bundle.getInt("uid"));
+			listener.name = bundle.getString("name");
+			listener.address = bundle.getString("address");
 			bt.setOnClickListener(listener);
 			}
         return view;
@@ -73,9 +80,15 @@ public class homePage extends Fragment implements android.location.LocationListe
     
     
 
-    void createPageActivity(String id) {
-		Intent intent = new Intent(getActivity(), AppActivity.class);
-		intent.getExtras().putString("id", id);
+    void createPageActivity(String id, String name, String address) {
+		Intent intent = new Intent(getActivity(), PageActivity.class);
+		
+		Bundle bundle = new Bundle();
+		bundle.putString("id", id);
+		bundle.putString("name", name);
+		bundle.putString("address", address);
+
+		intent.putExtras(bundle);
 		startActivity(intent);
     }
 

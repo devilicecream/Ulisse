@@ -43,6 +43,8 @@ public class MainActivity extends Activity implements OnClickListener,
         com=new Communication();
         mConnectionProgressDialog = new ProgressDialog(this);
         mConnectionProgressDialog.setMessage("Signing in...");
+		startActivity(new Intent(this,AppActivity.class));	    
+
     }
     
     @Override
