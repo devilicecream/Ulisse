@@ -1,43 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-        >
-    <LinearLayout
-            android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+    <RelativeLayout
+            android:id="@+id/topBar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <Button
+                    android:id="@+id/homeBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="HOME" android:layout_alignParentLeft="true">
+            </Button>
+
+            <Button
+                    android:id="@+id/rankBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RANK" android:layout_alignParentRight="true" android:layout_gravity="right">
+            </Button>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:id="@+id/bottomlayout"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal" >
+            android:layout_alignParentBottom="true">
 
         <Button
                 android:id="@+id/mapsBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MAPS" >
+                android:text="Maps" android:gravity="left" android:layout_alignParentRight="true">
         </Button>
-
         <Button
-                android:id="@+id/homeBtn"
+                android:id="@+id/newBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="HOME" >
+                android:text="New" android:gravity="right" android:layout_alignParentLeft="true"
+                android:layout_alignTop="@+id/mapsBtn" android:layout_alignParentEnd="false"
+                android:layout_alignParentStart="false">
         </Button>
+    </RelativeLayout>
 
-        <Button
-                android:id="@+id/rankBtn"
-                android:layout_width="wrap_content"
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/topBar"
+            android:layout_above="@id/bottomlayout">
+        <FrameLayout
                 android:layout_height="wrap_content"
-                android:text="RANK" >
-        </Button>
-    </LinearLayout>
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_alignParentEnd="false" android:layout_alignParentTop="false"
+                android:layout_alignParentLeft="false" android:layout_alignParentBottom="false"
+                android:layout_alignParentRight="false" android:layout_alignWithParentIfMissing="true">
+            <android.support.v4.view.ViewPager
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:layout_gravity="center_vertical"
+                    />
+        </FrameLayout>
+    </RelativeLayout>
 
-    <android.support.v4.view.ViewPager
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+
+</RelativeLayout>
 
 
-</LinearLayout>
+
+
+
+
 
