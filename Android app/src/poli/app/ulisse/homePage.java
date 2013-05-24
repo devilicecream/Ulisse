@@ -15,12 +15,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -60,20 +63,62 @@ public class homePage extends Fragment implements android.location.LocationListe
         // inflate view from layout
         View view = (LinearLayout)inflater.inflate(R.layout.center,container,false);
         near = (LinearLayout) view.findViewById(R.id.near);
-        segnalation = (LinearLayout) view.findViewById(R.id.segnal);
         createImageArray(view);
         
         Communication com = new Communication();
         Bundle[] bundles = com.getPlaces(45.06952, 7.67862);
+        int i = 0;
         for(Bundle bundle : bundles) {
         	Button bt = new Button(getActivity());
         	bt.setText(bundle.getString("name"));
-        	near.addView(bt);
         	ButtonListener listener = new ButtonListener();
 			listener.uid = String.format("%d",bundle.getInt("uid"));
 			listener.name = bundle.getString("name");
 			listener.address = bundle.getString("address");
 			bt.setOnClickListener(listener);
+			
+			
+			
+			LinearLayout l = new LinearLayout(getActivity());
+			
+		    l.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+		
+		    Random rand = new Random();
+		    int x = rand.nextInt(4);
+		    
+		    ImageView img = new ImageView(getActivity());
+		    switch(x) {
+		    case 0 :
+		    	img.setImageResource(R.drawable.colosseo);
+		    	break;
+		    case 1 :
+		    	img.setImageResource(R.drawable.catacombe_di_siracusa);
+		    	break;
+		    case 2 :
+		    	img.setImageResource(R.drawable.mole_antonelliana);
+		    	break;
+		    case 3 :
+		    	img.setImageResource(R.drawable.torre_di_pisa);
+		    	break;
+		    case 4 :
+		    	img.setImageResource(R.drawable.duomo_di_milano);
+		    	break;
+		    
+		    }
+		    
+		    
+		
+		    img.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
+		    
+		    l.addView(img);
+		    LayoutParams btnParams =new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
+		    bt.setBackgroundColor(0);
+		    l.addView(bt);
+		    l.setPadding(0, 5, 0, 5);
+		    near.addView(l);
+		    
+			
+            i++;
 			}
         return view;
     }
@@ -94,33 +139,6 @@ public class homePage extends Fragment implements android.location.LocationListe
 
     private void createImageArray(View v){
         for(int x = 0; x < 10; x++){
-/*            //nearImages.add(new ImageView(v.getContext()));
-            defineImage(nearImages.get(x));
-
-            nearDescriptions.add(new TextView(v.getContext()));
-            defineDescription(nearDescriptions.get(x));
-
-            nearContainer.add(new LinearLayout(v.getContext()));
-            defineContainer(nearContainer.get(x));
-
-            nearContainer.get(x).addView(nearImages.get(x));
-            nearContainer.get(x).addView(nearDescriptions.get(x));
-
-            near.addView(nearContainer.get(x));
-
-            segnalatedImages.add(new ImageView(v.getContext()));
-            defineImage(segnalatedImages.get(x));
-
-            segnalatedDescriptions.add(new TextView(v.getContext()));
-            defineDescription(segnalatedDescriptions.get(x));
-
-            segnalatedContainer.add(new LinearLayout(v.getContext()));
-            defineContainer(segnalatedContainer.get(x));
-
-            segnalatedContainer.get(x).addView(segnalatedImages.get(x));
-            segnalatedContainer.get(x).addView(segnalatedDescriptions.get(x));
-
-            segnalation.addView(segnalatedContainer.get(x));*/
         }
 
     }
@@ -137,12 +155,12 @@ public class homePage extends Fragment implements android.location.LocationListe
         t.setGravity(Gravity.CENTER);
     }
 
-/*    void defineImage(ImageView i){
+    void defineImage(ImageView i){
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(200, 200);
         params.setMargins(5, 5, 5, 5);
         i.setLayoutParams(params);
         i.setBackgroundColor(Color.WHITE);
-    }*/
+    }
 
 
     // activity listener interface
