@@ -63,7 +63,7 @@ public class AppActivity extends FragmentActivity implements android.widget.Popu
         //crea i fragment e li aggiunge alla lista
 
         fragments.add(Fragment.instantiate(this, homePage.class.getName()));
-        fragments.add(Fragment.instantiate(this, rankingPage.class.getName()));
+        fragments.add(Fragment.instantiate(this, rankActivity.class.getName()));
 
         // creating adapter and linking to view pager
         this.myAdapter = new PagerAdapter(super.getSupportFragmentManager(), fragments);
@@ -124,7 +124,7 @@ public class AppActivity extends FragmentActivity implements android.widget.Popu
 	{
 	    PopupMenu popup = new PopupMenu(this, v);
 	    MenuInflater inflater = popup.getMenuInflater();
-	    inflater.inflate(R.menu.new_menu, popup.getMenu()); //Menù da fare nel .R
+	    inflater.inflate(R.menu.new_menu, popup.getMenu()); //Menï¿½ da fare nel .R
 	    popup.setOnMenuItemClickListener(this);
 	    popup.show();
 	}

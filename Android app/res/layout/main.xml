@@ -10,45 +10,65 @@
             android:layout_height="wrap_content">
 
         <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#000000"
+            android:orientation="horizontal" >
+
             <Button
-                    android:id="@+id/homeBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="HOME" android:layout_alignParentLeft="true">
+                android:id="@+id/homeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:background="#ffffff"
+                android:text="HOME" >
+
             </Button>
 
             <Button
-                    android:id="@+id/rankBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="RANK" android:layout_alignParentRight="true" android:layout_gravity="right">
+                android:id="@+id/rankBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:layout_marginLeft="10dp"
+                android:background="#FFFFFF"
+                android:text="RANK" >
+
             </Button>
         </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout
-            android:id="@+id/bottomlayout"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+        android:id="@+id/bottomlayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#000000" >
 
         <Button
-                android:id="@+id/mapsBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Maps" android:gravity="left" android:layout_alignParentRight="true">
+            android:id="@+id/mapsBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="left"
+            android:text="Maps"
+            android:textColor="#ffffff" >
+
         </Button>
+
         <Button
-                android:id="@+id/newBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New" android:gravity="right" android:layout_alignParentLeft="true"
-                android:layout_alignTop="@+id/mapsBtn" android:layout_alignParentEnd="false"
-                android:layout_alignParentStart="false"
-                >
+            android:id="@+id/newBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="false"
+            android:layout_alignTop="@+id/mapsBtn"
+            android:gravity="right"
+            android:text="New"
+            android:textColor="#ffffff" >
+
         </Button>
     </RelativeLayout>
 
