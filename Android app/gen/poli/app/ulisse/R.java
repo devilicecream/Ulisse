@@ -230,11 +230,11 @@ containing a value of this type.
         public static final int search=0x7f060017;
         public static final int searchView=0x7f060018;
         public static final int segnal=0x7f060013;
-        public static final int sign_in_button=0x7f060009;
+        public static final int sign_in_button=0x7f060008;
         public static final int terrain=0x7f060003;
         public static final int terreno=0x7f060028;
         public static final int textView=0x7f060011;
-        public static final int textView1=0x7f060008;
+        public static final int textView1=0x7f060009;
         public static final int top=0x7f060016;
         public static final int topBar=0x7f060019;
         public static final int tvAddr=0x7f060024;

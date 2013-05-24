@@ -3,39 +3,23 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/main" >
-
-        </ImageView>
-
-        <TextView
+ <!--        <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="100dp"
-            android:text="Ulisse"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="36dp" />
+            android:layout_marginTop="67dp"
+            android:text="Ulisse2"
+            android:textAppearance="?android:attr/textAppearanceLarge" /> -->
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in_button"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_below="@+id/textView1"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="60dp"
-            android:padding="5dp" >
-
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="26dp" >
         </com.google.android.gms.common.SignInButton>
         
     </RelativeLayout>

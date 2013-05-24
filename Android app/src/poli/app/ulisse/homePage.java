@@ -1,21 +1,31 @@
 package poli.app.ulisse;
+import android.R.string;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import com.google.android.gms.maps.model.LatLng;
 
-public class homePage extends Fragment{
+
+public class homePage extends Fragment implements android.location.LocationListener{
     LinearLayout near;
     LinearLayout segnalation;
     ArrayList<ImageView> nearImages = new ArrayList<ImageView>();
@@ -26,7 +36,15 @@ public class homePage extends Fragment{
 
     ArrayList<ImageView> segnalatedImages = new ArrayList<ImageView>();
     ArrayList<TextView> segnalatedDescriptions = new ArrayList<TextView>();
-
+    
+    class ButtonListener implements OnClickListener {
+		public String id;
+		@Override
+		public void onClick(View v) {
+			// Porcata assurda.
+			createPageActivity(id);
+		}
+	};
 
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
 
@@ -40,13 +58,30 @@ public class homePage extends Fragment{
         near = (LinearLayout) view.findViewById(R.id.near);
         segnalation = (LinearLayout) view.findViewById(R.id.segnal);
         createImageArray(view);
+        
+        Communication com = new Communication();
+        Bundle[] bundles = com.getPlaces(45.06952, 7.67862);
+        for(Bundle bundle : bundles) {
+        	Button bt = new Button(getActivity());
+        	bt.setText(bundle.getString("name"));
+        	ButtonListener listener = new ButtonListener();
+			listener.id = bundle.getString("uid");
+			bt.setOnClickListener(listener);
+			}
         return view;
     }
+    
+    
 
+    void createPageActivity(String id) {
+		Intent intent = new Intent(getActivity(), AppActivity.class);
+		intent.getExtras().putString("id", id);
+		startActivity(intent);
+    }
 
     private void createImageArray(View v){
         for(int x = 0; x < 10; x++){
-            nearImages.add(new ImageView(v.getContext()));
+/*            //nearImages.add(new ImageView(v.getContext()));
             defineImage(nearImages.get(x));
 
             nearDescriptions.add(new TextView(v.getContext()));
@@ -72,7 +107,7 @@ public class homePage extends Fragment{
             segnalatedContainer.get(x).addView(segnalatedImages.get(x));
             segnalatedContainer.get(x).addView(segnalatedDescriptions.get(x));
 
-            segnalation.addView(segnalatedContainer.get(x));
+            segnalation.addView(segnalatedContainer.get(x));*/
         }
 
     }
@@ -89,12 +124,12 @@ public class homePage extends Fragment{
         t.setGravity(Gravity.CENTER);
     }
 
-    void defineImage(ImageView i){
+/*    void defineImage(ImageView i){
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(200, 200);
         params.setMargins(5, 5, 5, 5);
         i.setLayoutParams(params);
-        i.setBackgroundColor(Color.BLUE);
-    }
+        i.setBackgroundColor(Color.WHITE);
+    }*/
 
 
     // activity listener interface
@@ -103,7 +138,7 @@ public class homePage extends Fragment{
         public void onPage1();
     }
 
-    // onAttach : set activity listener
+/*    // onAttach : set activity listener
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -118,6 +153,34 @@ public class homePage extends Fragment{
                 Log.d("PAG1", "Button event");
             }
         };
-    }
+    }*/
+
+
+	@Override
+	public void onLocationChanged(Location arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void onProviderDisabled(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void onProviderEnabled(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 

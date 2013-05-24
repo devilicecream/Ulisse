@@ -225,7 +225,7 @@ public class MapsActivity extends Activity implements OnMarkerClickListener,OnIn
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle item selection
 	    switch (item.getItemId()) {
-	        case R.id.normal:
+	        case R.id.normale:
 	            mMap.setMapType(com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL);
 	            return true;
 	        case R.id.satellite:
