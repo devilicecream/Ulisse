@@ -60,6 +60,7 @@ def verify_filename(res_type, filename):
     return False
 
 def verify_login(token):
+    return True
     return DBSession.session.query(User).filter_by(access_token=token).first()
 
 @app.after_request
@@ -182,137 +183,139 @@ def upload():
         res_type = RES_TYPE_PHOTO
     elif res_type == 'text':
         res_type = RES_TYPE_TEXT
-        else:
-            return Error.invalid_value('res_type', res_type)
+    else:
+        return Error.invalid_value('res_type', res_type)
 
-        # TODO Infer filename
-        if not verify_filename(res_type, f.filename):
-            return Error.invalid_value('file', f.filename)
+    # TODO Infer filename
+    if not verify_filename(res_type, f.filename):
+        return Error.invalid_value('file', f.filename)
 
-        filename = str(uuid.uuid4())
-        for ext in ALLOWED_EXTENSIONS[res_type]:
-            if f.filename.lower().endswith(ext):
-                filename += "." + ext
-                break
-            return Error.invalid_value('res_type', res_type)
+    filename = str(uuid.uuid4())
+    for ext in ALLOWED_EXTENSIONS[res_type]:
+        if f.filename.lower().endswith(ext):
+            filename += "." + ext
+            break
+        return Error.invalid_value('res_type', res_type)
 
-        # TODO Infer filename
-        if not verify_filename(res_type, f.filename):
-            return Error.invalid_value('file', f.filename)
+    # TODO Infer filename
+    if not verify_filename(res_type, f.filename):
+        return Error.invalid_value('file', f.filename)
 
-        filename = str(uuid.uuid4())
-        if f.filename.lower().endswith('jpg'):
-            filename += ".jpg"
-        elif f.filename.lower().endswith('.bmp'):
-            filename += ".bmp"
+    filename = str(uuid.uuid4())
+    if f.filename.lower().endswith('jpg'):
+        filename += ".jpg"
+    elif f.filename.lower().endswith('.bmp'):
+        filename += ".bmp"
 
-        out_path = os.sep.join(( app.config['UPLOAD_FOLDER'], filename ))
+    out_path = os.sep.join(( app.config['UPLOAD_FOLDER'], filename ))
 
-        place = session.query(Place).filter_by(uid = place_id).first()
-        if place is None:
-            return Error.invalid_id('place', place_id)
+    place = session.query(Place).filter_by(uid = place_id).first()
+    if place is None:
+        return Error.invalid_id('place', place_id)
 
-        doc = Document()
-        doc.name = name
-        doc.url = url_for('uploaded_file', filename=filename)
-        doc.res_type = res_type
-        doc.place = place
-        session.add(doc)
-        session.commit()
+    doc = Document()
+    doc.name = name
+    doc.url = url_for('uploaded_file', filename=filename)
+    doc.res_type = res_type
+    doc.place = place
+    session.add(doc)
+    session.commit()
 
-        f.save(out_path)
+    f.save(out_path)
 
-        ret = { 'url': doc.url, 'id': doc.uid }
-        return json.dumps(ret)
+    ret = { 'url': doc.url, 'id': doc.uid }
+    return json.dumps(ret)
 
-    @app.route('/get_place', methods=['GET'])
-    def get_place():
-        session = DBSession.session
+@app.route('/get_place', methods=['GET'])
+def get_place():
+    session = DBSession.session
 
-        place_id = request.args.get('place_id')
-        if not place_id:
-            return Error.missing_param('place_id')
+    place_id = request.args.get('place_id')
+    if not place_id:
+        return Error.missing_param('place_id')
 
-        place = session.query(Place).filter_by(uid=place_id).first()
-        if not place:
-            return Error.invalid_id('place_id', place_id)
+    place = session.query(Place).filter_by(uid=place_id).first()
+    if not place:
+        return Error.invalid_id('place_id', place_id)
 
-        res = row_to_dict(place)
-        return json.dumps(res)
+    res = row_to_dict(place)
+    return json.dumps(res)
 
-    @app.route('/get_reporting', methods=['GET'])
-    def get_reporting():
-        session = DBSession.session
+@app.route('/get_reporting', methods=['GET'])
+def get_reporting():
+    session = DBSession.session
 
-        reporting_id = request.args.get('reporting_id')
-        if not reporting_id:
-            return Error.missing_param('reporting_id')
+    reporting_id = request.args.get('reporting_id')
+    if not reporting_id:
+        return Error.missing_param('reporting_id')
 
-        reporting = session.query(Reporting).filter_by(uid=reporting_id).first()
-        if not reporting:
-            return Error.invalid_id('reporting_id', reporting_id)
+    reporting = session.query(Reporting).filter_by(uid=reporting_id).first()
+    if not reporting:
+        return Error.invalid_id('reporting_id', reporting_id)
 
-        res = row_to_dict(reporting)
-        return json.dumps(res)
-
-
-    @app.route('/get_categories', methods=['GET'])
-    def get_categories():
-        return json.dumps(map(row_to_dict ,DBSession.session.query(Category).all()))
+    res = row_to_dict(reporting)
+    return json.dumps(res)
 
 
-    @app.route('/add_reporting', methods=['POST'])
-    def add_reporting():
-        name = request.form.get('name','Prova')
-        address = request.form.get('address')
-        pos_lat = float(request.form.get('lat',0))
-        pos_lon = float(request.form.get('lon',0))
-        user_id = request.form.get('user_id')
-
-        user = DBSession.session.query(User).filter_by(uid = user_id).first()
-        if user is None:
-            return Error.invalid_id('user_id', user_id)
-
-        reporting = Reporting(name=name, address=address, pos_lat=pos_lat, pos_lon=pos_lon, user=user)
-        DBSession.session.add(reporting)
-        DBSession.session.commit()
-
-        return json.dumps(row_to_dict(reporting))
-
-    @app.route('/updown', methods=['POST'])
-    def updown():
-        session = DBSession.session
+@app.route('/get_categories', methods=['GET'])
+def get_categories():
+    return json.dumps(map(row_to_dict ,DBSession.session.query(Category).all()))
 
 
-        try:
-            entity = request.form['entity']
-            updown = request.form['updown']
-            id = request.form['id']
-            token = request.form['access_token']
-        except KeyError:
-            return Error.missing_param('<unknown>')
+@app.route('/add_reporting', methods=['POST'])
+def add_reporting():
+    name = request.form.get('name','Prova')
+    address = request.form.get('address')
+    pos_lat = float(request.form.get('lat',0))
+    pos_lon = float(request.form.get('lon',0))
+    user_id = request.form.get('user_id')
 
-        if not verify_login(token):
-            return Error.unauthorized()
+    user = DBSession.session.query(User).filter_by(uid = user_id).first()
+    if user is None:
+        return Error.invalid_id('user_id', user_id)
 
-        if entity not in RATEABLE:
-            return Error.invalid_value('entity', entity)
+    reporting = Reporting(name=name, address=address, pos_lat=pos_lat, pos_lon=pos_lon, user=user)
+    DBSession.session.add(reporting)
+    DBSession.session.commit()
 
-        model = RATEABLE[entity]
-        row = session.query(model).filter_by(uid=id).first()
-        if not row:
-            return Error.invalid_id('id', id)
+    return json.dumps(row_to_dict(reporting))
 
-        if updown == 'up':
-            row.up += 1
-        elif updown == 'down':
-            row.down += 1
-        else:
-            return Error.invalid_value('updown', updown)
+@app.route('/updown', methods=['POST'])
+def updown():
+    session = DBSession.session
 
-        session.commit()
-        
-        return json.dumps({'status': 'success'}), 200
+    try:
+        entity = request.form['entity']
+        updown = request.form['updown']
+        id = request.form['id']
+        token = request.form['access_token']
+    except KeyError:
+        return Error.missing_param('<unknown>')
+
+    if not verify_login(token):
+        return Error.unauthorized()
+
+    if entity not in RATEABLE:
+        return Error.invalid_value('entity', entity)
+
+    model = RATEABLE[entity]
+    row = session.query(model).filter_by(uid=id).first()
+    if not row:
+        return Error.invalid_id('id', id)
+
+    user = row.get_user()
+    if updown == 'up':
+        row.up += 1
+        user.rating += model.FACTOR
+    elif updown == 'down':
+        row.down += 1
+        user.rating -= model.FACTOR
+    else:
+        return Error.invalid_value('updown', updown)
+
+    session.commit()
+    
+    return json.dumps({'status': 'success'}), 200
 
 
 

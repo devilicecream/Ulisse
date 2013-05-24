@@ -106,3 +106,4 @@ class Reporting(DBSession.Model):
 
     def get_user(self):
         return self.user
+
