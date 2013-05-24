@@ -36,6 +36,11 @@ class Place(DBSession.Model):
     category_id = DBSession.Column(DBSession.Integer, DBSession.ForeignKey('categories.uid'))
     category = DBSession.relationship('Category', backref=DBSession.backref('places', lazy='dynamic'))
 
+    FACTOR = 2
+
+    def get_user(self):
+        return self.user
+
 
 
 class Document(DBSession.Model):
@@ -53,6 +58,14 @@ class Document(DBSession.Model):
 
     reporting_id = DBSession.Column(DBSession.Integer, DBSession.ForeignKey('reportings.uid'))
     reporting = DBSession.relationship('Reporting', backref=DBSession.backref('documents', lazy='dynamic'))
+
+    FACTOR = 5
+
+    def get_user(self):
+        if self.reporting_id:
+            return self.reporting.user
+        else:
+            return self.place.user
 
 
 class Category(DBSession.Model):
@@ -88,3 +101,8 @@ class Reporting(DBSession.Model):
 
     user_id = DBSession.Column(DBSession.Integer, DBSession.ForeignKey('users.uid'))
     user = DBSession.relationship('User', backref=DBSession.backref('reportings', lazy='dynamic'))
+
+    FACTOR = 3
+
+    def get_user(self):
+        return self.user
