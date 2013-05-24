@@ -10,7 +10,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="67dp"
-            android:text="Ulisse"
+            android:text="Ulisse2"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <com.google.android.gms.common.SignInButton
