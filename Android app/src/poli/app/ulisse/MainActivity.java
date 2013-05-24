@@ -39,9 +39,10 @@ public class MainActivity extends Activity implements OnClickListener,
         if(mPlusClient.isConnected())
             Toast.makeText(this, " is connected.", Toast.LENGTH_LONG).show();
 
-        startActivity(new Intent(this, AppActivity.class));//salto del login
+       // startActivity(new Intent(this, AppActivity.class));//salto del login
+        startActivity(new Intent(this, NewPlace.class));//salto del login
     }
-
+    
     @Override
     protected void onStart()
     {
@@ -54,12 +55,6 @@ public class MainActivity extends Activity implements OnClickListener,
         super.onStop();
         mPlusClient.disconnect();
     }
-
-
-
-
-
-
 
 	@Override
 	public void onConnected(Bundle connectionHint) 

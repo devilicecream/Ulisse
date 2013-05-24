@@ -1,0 +1,6 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/gallery"
+          android:title="From Gallery" />
+    <item android:id="@+id/TakePhoto"
+          android:title="Take Photo" />
+</menu>
