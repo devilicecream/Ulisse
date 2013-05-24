@@ -98,6 +98,36 @@ public class Communication
 		return b;
 	}
 	
+	public Bundle[] getReportings(double lat,double lon)
+	{
+		Bundle[] b=null;
+		String[] values={String.valueOf(lat),String.valueOf(lon)};
+		String[] params={"lat","lon"};
+		JSONArray jsa=sendData("get_reportings",params,values, null);
+		b=new Bundle[jsa.length()];
+		for(int i=0;i<jsa.length();i++)
+		{
+			try 
+			{	
+				JSONObject job=jsa.getJSONObject(i);
+				b[i]=new Bundle();
+				b[i].putInt("uid",job.getInt("uid"));
+				b[i].putString("name",job.getString("name"));
+				b[i].putString("address",job.getString("address"));
+				b[i].putDouble("pos_lat",job.getDouble("pos_lat"));
+				b[i].putDouble("pos_lon",job.getDouble("pos_lon"));
+				b[i].putInt("up",job.getInt("up"));
+				b[i].putInt("down",job.getInt("down"));
+				b[i].putInt("user_id",job.getInt("user_id"));
+				b[i].putInt("category_id",job.getInt("category_id"));
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return b;
+	}
+	
 	public Bundle getPlace(int id)
 	{
 		Bundle b=new Bundle();
