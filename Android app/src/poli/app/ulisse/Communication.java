@@ -128,7 +128,7 @@ public class Communication
 		return b;
 	}
 	
-	public Bundle getPlace(int id)
+	public Bundle getPlace(String id)
 	{
 		Bundle b=new Bundle();
 		String[] values={String.valueOf(id)};

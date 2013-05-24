@@ -43,7 +43,6 @@ public class MainActivity extends Activity implements OnClickListener,
         com=new Communication();
         mConnectionProgressDialog = new ProgressDialog(this);
         mConnectionProgressDialog.setMessage("Signing in...");
-        startActivity(new Intent(this,AppActivity.class));	// jump directly in order to avoid login
     }
     
     @Override
@@ -108,8 +107,8 @@ public class MainActivity extends Activity implements OnClickListener,
 		else
 		{
 			Toast.makeText(this,"ID: "+String.valueOf(person.getId()), Toast.LENGTH_LONG).show(); 
-			//com.login(person.getId());
-			com.getPlaces(100.0,100.0);
+			//m.login(person.getId());
+		//om.getPlaces(100.0,100.0);
 			startActivity(new Intent(this,AppActivity.class));	    
 		}
 	}
