@@ -1,6 +1,8 @@
 package poli.app.ulisse;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -17,6 +19,7 @@ import java.util.Vector;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.graphics.Color;
+import com.google.android.gms.maps.MapFragment;
 
 
 public class AppActivity extends FragmentActivity {
@@ -39,7 +42,7 @@ public class AppActivity extends FragmentActivity {
 
 
         //crea i fragment e li aggiunge alla lista
-        fragments.add(Fragment.instantiate(this, mapsPage.class.getName()));
+
         fragments.add(Fragment.instantiate(this, homePage.class.getName()));
         fragments.add(Fragment.instantiate(this, rankingPage.class.getName()));
 
@@ -47,7 +50,7 @@ public class AppActivity extends FragmentActivity {
         this.myAdapter = new PagerAdapter(super.getSupportFragmentManager(), fragments);
         myPager = (ViewPager) super.findViewById(R.id.pager);
         myPager.setAdapter(this.myAdapter);
-        myPager.setCurrentItem(1);
+        myPager.setCurrentItem(0);
 
         // upper bar button listener, allows direct page access
         Button button = (Button)findViewById(R.id.mapsBtn);
@@ -59,16 +62,22 @@ public class AppActivity extends FragmentActivity {
         button = (Button)findViewById(R.id.homeBtn);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                myPager.setCurrentItem(1);   // go to left page
+                myPager.setCurrentItem(0);   // go to left page
             }
         });
         button = (Button)findViewById(R.id.rankBtn);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                myPager.setCurrentItem(2);   // go to right page
+                myPager.setCurrentItem(1);   // go to right page
             }
         });
 
+        Button mapBtn = (Button)findViewById(R.id.mapsBtn);
+        mapBtn.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                startActivity(new Intent(v.getContext(), MapsActivity.class));//salto del login
+            }
+        });
         //
     }
 
